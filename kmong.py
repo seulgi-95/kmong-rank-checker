@@ -57,12 +57,21 @@ GIG_ID_MAP = {
 # 셀레늄 순위 검색 함수
 def check_kmong_rank(keyword, my_gig_id, max_pages=3):
     options = webdriver.ChromeOptions()
+    
+    # --- 🌐 리눅스/클라우드 서버 배포용 필수 옵션 ---
+    options.add_argument("--headless")  # 화면 없는 모드로 실행 (서버 필수)
+    options.add_argument("--no-sandbox")  # 권한 보안 제한 해제 (서버 필수)
+    options.add_argument("--disable-dev-shm-usage")  # 공유 메모리 오버플로우 방지 (서버 필수)
+    options.add_argument("--disable-gpu")  # GPU 가속 해제
+    
+    # 봇 차단 우회 기본 옵션
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
     
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    # 서버 환경에서는 webdriver_manager가 꼬일 수 있으므로 가장 심플하게 선언합니다.
+    driver = webdriver.Chrome(options=options)
     current_rank = 0 
     
     try:
