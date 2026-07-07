@@ -1,3 +1,5 @@
+chromium
+chromium-driver
 streamlit
 pandas
 selenium
